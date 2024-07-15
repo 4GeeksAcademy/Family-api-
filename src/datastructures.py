@@ -1,65 +1,62 @@
+"""
+Actualiza este archivo para implementar los siguientes métodos ya declarados:
+- add_member: Debería agregar un miembro a la lista self._members
+- delete_member: Debería eliminar un miembro de la lista self._members
+- update_member: Debería actualizar un miembro de la lista self._members
+- get_member: Debería devolver un miembro de la lista self._members
+"""
 
-"""
-update this file to implement the following already declared methods:
-- add_member: Should add a member to the self._members list
-- delete_member: Should delete a member from the self._members list
-- update_member: Should update a member from the self._members list
-- get_member: Should return a member from the self._members list
-"""
 from random import randint
 
 class FamilyStructure:
     def __init__(self, last_name):
         self.last_name = last_name
-        self._next_id = 1
 
-        # example list of members
-        self.members = [
-            {
-                "id": self.generateId(),
-                "first_name": "John",
-                "last_name": last_name,
+        self._members = [
+            {   "id": 1,
+                "first_name": "john",
                 "age": 33,
                 "lucky_numbers": [7, 13, 22]
             },
             {
-                "id": self.generateId(),
-                "first_name": "Jane",
-                "last_name": last_name,
-                "age":35,
+                "id": 2,
+                "first_name": "jane",
+                "age": 35,
                 "lucky_numbers": [10, 14, 3]
             },
             {
-                "id": self.generateId(),
-                "first_name": "Jimmy",
-                "last_name": last_name,
+                "id": 3,
+                "first_name": "jimmy",
                 "age": 5,
-                "lucky_numbers": [1]
-            }            
+                "lucky_numbers": [7]
+            }
         ]
 
-    # read-only: Use this method to generate random members ID's when adding members into the list
-    def generateId(self):
-        generated_id = self._next_id
-        self._next_id += 1
-        return generated_id
+    def _generateId(self):
+        return randint(0, 99999999)
 
     def add_member(self, member):
-        member_id = self.generateId()
-        member["id"] = member_id
-        member["last_name"] = self.last_name  
-        self.members.append(member)
+        if not member.get("id"):
+            member["id"] = self._generateId()  
+        self._members.append(member) 
 
     def delete_member(self, id):
-        for member in self.members:
+        for member in self._members:
             if member["id"] == id:
-                self.members.remove(member)
+                self._members.remove(member)  
 
-    def get_one_member(self, id):
-        for member in self.members:
-           if member["id"] == id:
-               return member
+    def update_member(self, id, member):
+        for family_member in self._members:
+            if family_member["id"] == id:
+                self._members.remove(family_member) 
+                member["id"] = id 
+                self._members.append(member)  
+            
 
-    # this method is done, it returns a list with all the family members
+    def get_member(self, id):
+        for family_member in self._members:
+            if family_member["id"] == id:
+                return family_member  
+
     def get_all_members(self):
-        return self.members
+        return self._members  
